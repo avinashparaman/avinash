@@ -1,0 +1,749 @@
+CREATE TABLE Employee (
+EmpID INT PRIMARY KEY,
+FirstName VARCHAR(' at line 1
+mysql> CREATE TABLE Employee (
+    -> EmpID INT PRIMARY KEY,
+    -> FirstName VARCHAR(50),
+    -> LastName VARCHAR(50),
+    -> DepartmentID INT,
+    -> Salary DECIMAL(10, 2),
+    -> HireDate DATE
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE Department (
+    -> DepartmentID INT PRIMARY KEY,
+    -> DeptName VARCHAR(100),
+    -> Location VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE Project (
+    -> ProjectID INT PRIMARY KEY,
+    -> ProjectName VARCHAR(100),
+    -> DepartmentID INT,
+    -> Budget DECIMAL(12, 2)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE WorksOn (
+    -> EmpID INT,
+    -> ProjectID INT,
+    -> HoursWorked INT,
+    -> PRIMARY KEY (EmpID, ProjectID),
+    -> FOREIGN KEY (EmpID) REFERENCES Employee(EmpID),
+    -> FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+mysql> create table attendance(recordID int primary key,empid int,date DATE,status enum('Present','Absent'),FOREIGN KEY (EmpID) REFERENCES Employee(EmpID)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO Department (DepartmentID, DeptName, Location) VALUES
+    -> (1, 'HR', 'New York'),
+    -> (2, 'IT', 'San Francisco'),
+    -> (3, 'Finance', 'Chicago'),
+    -> (4, 'Marketing', 'New York'),
+    -> (5, 'Operations', 'Los Angeles');
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+mysql> INSERT INTO Employee (EmpID, FirstName, LastName, DepartmentID, Salary, HireDate) VALUES
+    -> (101, 'Alice', 'Smith', 2, 90000, '2021-05-10'),
+    -> (102, 'Bob', 'Johnson', 1, 70000, '2019-08-20'),
+    -> (103, 'Charlie', 'Williams', 2, 85000, '2020-01-15'),
+    -> (104, 'Diana', 'Brown', 3, 92000, '2022-06-01'),
+    -> (105, 'Evan', 'Jones', 4, 75000, '2021-11-05'),
+    -> (106, 'Fiona', 'Garcia', NULL, 68000, '2020-09-12'),
+    -> (107, 'George', 'Miller', 5, 79000, '2023-03-27'),
+    -> (108, 'Hannah', 'Davis', 2, 88000, '2024-02-10');
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Project (ProjectID, ProjectName, DepartmentID, Budget) VALUES
+    -> (201, 'Website Redesign', 2, 120000),
+    -> (202, 'Recruitment Drive', 1, 50000),
+    -> (203, 'Financial Audit', 3, 150000),
+    -> (204, 'Ad Campaign', 4, 95000),
+    -> (205, 'System Migration', 2, 300000),
+    -> (206, 'Client Onboarding', 5, 75000);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO WorksOn (EmpID, ProjectID, HoursWorked) VALUES
+    -> (101, 201, 40),
+    -> (103, 201, 30),
+    -> (104, 203, 25),
+    -> (105, 204, 20),
+    -> (101, 205, 35),
+    -> (108, 205, 40),
+    -> (107, 206, 15),
+    -> (102, 202, 10),
+    -> (103, 205, 15),
+    -> (108, 201, 20);
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Attendance (RecordID, EmpID, Date, Status) VALUES
+    -> (1, 101, '2025-08-01', 'Present'),
+    -> (2, 101, '2025-08-02', 'Absent'),
+    -> (3, 102, '2025-08-01', 'Present'),
+    -> (4, 103, '2025-08-01', 'Present'),
+    -> (5, 104, '2025-08-01', 'Absent'),
+    -> (6, 105, '2025-08-01', 'Present'),
+    -> (7, 106, '2025-08-01', 'Present'),
+    -> (8, 107, '2025-08-01', 'Absent'),
+    -> (9, 108, '2025-08-01', 'Present'),
+    -> (10, 101, '2025-08-03', 'Present'),
+    -> (11, 104, '2025-08-03', 'Present'),
+    -> (12, 107, '2025-08-03', 'Present');
+Query OK, 12 rows affected (0.02 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++-------+-----------+----------+--------------+----------+------------+
+| EmpID | FirstName | LastName | DepartmentID | Salary   | HireDate   |
++-------+-----------+----------+--------------+----------+------------+
+|   101 | Alice     | Smith    |            2 | 90000.00 | 2021-05-10 |
+|   102 | Bob       | Johnson  |            1 | 70000.00 | 2019-08-20 |
+|   103 | Charlie   | Williams |            2 | 85000.00 | 2020-01-15 |
+|   104 | Diana     | Brown    |            3 | 92000.00 | 2022-06-01 |
+|   105 | Evan      | Jones    |            4 | 75000.00 | 2021-11-05 |
+|   106 | Fiona     | Garcia   |         NULL | 68000.00 | 2020-09-12 |
+|   107 | George    | Miller   |            5 | 79000.00 | 2023-03-27 |
+|   108 | Hannah    | Davis    |            2 | 88000.00 | 2024-02-10 |
++-------+-----------+----------+--------------+----------+------------+
+8 rows in set (0.01 sec)
+
+mysql> select * from department;
++--------------+------------+---------------+
+| DepartmentID | DeptName   | Location      |
++--------------+------------+---------------+
+|            1 | HR         | New York      |
+|            2 | IT         | San Francisco |
+|            3 | Finance    | Chicago       |
+|            4 | Marketing  | New York      |
+|            5 | Operations | Los Angeles   |
++--------------+------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------+-------------------+--------------+-----------+
+| ProjectID | ProjectName       | DepartmentID | Budget    |
++-----------+-------------------+--------------+-----------+
+|       201 | Website Redesign  |            2 | 120000.00 |
+|       202 | Recruitment Drive |            1 |  50000.00 |
+|       203 | Financial Audit   |            3 | 150000.00 |
+|       204 | Ad Campaign       |            4 |  95000.00 |
+|       205 | System Migration  |            2 | 300000.00 |
+|       206 | Client Onboarding |            5 |  75000.00 |
++-----------+-------------------+--------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Workson;
++-------+-----------+-------------+
+| EmpID | ProjectID | HoursWorked |
++-------+-----------+-------------+
+|   101 |       201 |          40 |
+|   101 |       205 |          35 |
+|   102 |       202 |          10 |
+|   103 |       201 |          30 |
+|   103 |       205 |          15 |
+|   104 |       203 |          25 |
+|   105 |       204 |          20 |
+|   107 |       206 |          15 |
+|   108 |       201 |          20 |
+|   108 |       205 |          40 |
++-------+-----------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from attendance;
++----------+-------+------------+---------+
+| recordID | empid | date       | status  |
++----------+-------+------------+---------+
+|        1 |   101 | 2025-08-01 | Present |
+|        2 |   101 | 2025-08-02 | Absent  |
+|        3 |   102 | 2025-08-01 | Present |
+|        4 |   103 | 2025-08-01 | Present |
+|        5 |   104 | 2025-08-01 | Absent  |
+|        6 |   105 | 2025-08-01 | Present |
+|        7 |   106 | 2025-08-01 | Present |
+|        8 |   107 | 2025-08-01 | Absent  |
+|        9 |   108 | 2025-08-01 | Present |
+|       10 |   101 | 2025-08-03 | Present |
+|       11 |   104 | 2025-08-03 | Present |
+|       12 |   107 | 2025-08-03 | Present |
++----------+-------+------------+---------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT e.EmpID, e.FirstName, e.LastName, SUM(w.HoursWorked) AS TotalHours
+    -> FROM Employee e
+    -> JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> GROUP BY e.EmpID, e.FirstName, e.LastName;
++-------+-----------+----------+------------+
+| EmpID | FirstName | LastName | TotalHours |
++-------+-----------+----------+------------+
+|   101 | Alice     | Smith    |         75 |
+|   102 | Bob       | Johnson  |         10 |
+|   103 | Charlie   | Williams |         45 |
+|   104 | Diana     | Brown    |         25 |
+|   105 | Evan      | Jones    |         20 |
+|   107 | George    | Miller   |         15 |
+|   108 | Hannah    | Davis    |         60 |
++-------+-----------+----------+------------+
+7 rows in set (0.04 sec)
+
+mysql>
+mysql> SELECT MAX(Salary) AS SecondHighestSalary
+    -> FROM Employee
+    -> WHERE Salary < (SELECT MAX(Salary) FROM Employee);
++---------------------+
+| SecondHighestSalary |
++---------------------+
+|            90000.00 |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Department
+    -> WHERE Location = 'New York';
++--------------+-----------+----------+
+| DepartmentID | DeptName  | Location |
++--------------+-----------+----------+
+|            1 | HR        | New York |
+|            4 | Marketing | New York |
++--------------+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT d.DeptName, SUM(p.Budget) AS TotalBudget
+    -> FROM Department d
+    -> JOIN Project p ON d.DepartmentID = p.DepartmentID
+    -> GROUP BY d.DeptName;
++------------+-------------+
+| DeptName   | TotalBudget |
++------------+-------------+
+| IT         |   420000.00 |
+| HR         |    50000.00 |
+| Finance    |   150000.00 |
+| Marketing  |    95000.00 |
+| Operations |    75000.00 |
++------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Employee
+    -> WHERE Salary > (SELECT AVG(Salary) FROM Employee);
++-------+-----------+----------+--------------+----------+------------+
+| EmpID | FirstName | LastName | DepartmentID | Salary   | HireDate   |
++-------+-----------+----------+--------------+----------+------------+
+|   101 | Alice     | Smith    |            2 | 90000.00 | 2021-05-10 |
+|   103 | Charlie   | Williams |            2 | 85000.00 | 2020-01-15 |
+|   104 | Diana     | Brown    |            3 | 92000.00 | 2022-06-01 |
+|   108 | Hannah    | Davis    |            2 | 88000.00 | 2024-02-10 |
++-------+-----------+----------+--------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.*
+    -> FROM Employee e
+    -> LEFT JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> WHERE w.ProjectID IS NULL;
++-------+-----------+----------+--------------+----------+------------+
+| EmpID | FirstName | LastName | DepartmentID | Salary   | HireDate   |
++-------+-----------+----------+--------------+----------+------------+
+|   106 | Fiona     | Garcia   |         NULL | 68000.00 | 2020-09-12 |
++-------+-----------+----------+--------------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, e.FirstName, e.LastName, d.DeptName
+    -> FROM Employee e
+    -> LEFT JOIN Department d ON e.DepartmentID = d.DepartmentID;
++-------+-----------+----------+------------+
+| EmpID | FirstName | LastName | DeptName   |
++-------+-----------+----------+------------+
+|   101 | Alice     | Smith    | IT         |
+|   102 | Bob       | Johnson  | HR         |
+|   103 | Charlie   | Williams | IT         |
+|   104 | Diana     | Brown    | Finance    |
+|   105 | Evan      | Jones    | Marketing  |
+|   106 | Fiona     | Garcia   | NULL       |
+|   107 | George    | Miller   | Operations |
+|   108 | Hannah    | Davis    | IT         |
++-------+-----------+----------+------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT d.DeptName, COUNT(e.EmpID) AS EmployeeCount
+    -> FROM Department d
+    -> LEFT JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    -> GROUP BY d.DeptName;
++------------+---------------+
+| DeptName   | EmployeeCount |
++------------+---------------+
+| HR         |             1 |
+| IT         |             3 |
+| Finance    |             1 |
+| Marketing  |             1 |
+| Operations |             1 |
++------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT d.DeptName, AVG(e.Salary) AS AvgSalary
+    -> FROM Department d
+    -> JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    -> GROUP BY d.DeptName
+    -> HAVING AVG(e.Salary) > 70000;
++------------+--------------+
+| DeptName   | AvgSalary    |
++------------+--------------+
+| IT         | 87666.666667 |
+| Finance    | 92000.000000 |
+| Marketing  | 75000.000000 |
+| Operations | 79000.000000 |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT p.ProjectName, SUM(w.HoursWorked) AS TotalHours
+    -> FROM Project p
+    -> JOIN WorksOn w ON p.ProjectID = w.ProjectID
+    -> GROUP BY p.ProjectName
+    -> HAVING SUM(w.HoursWorked) > 100;
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT e.FirstName, e.LastName, p.ProjectName
+    -> FROM Employee e
+    -> JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> JOIN Project p ON w.ProjectID = p.ProjectID;
++-----------+----------+-------------------+
+| FirstName | LastName | ProjectName       |
++-----------+----------+-------------------+
+| Alice     | Smith    | Website Redesign  |
+| Charlie   | Williams | Website Redesign  |
+| Hannah    | Davis    | Website Redesign  |
+| Bob       | Johnson  | Recruitment Drive |
+| Diana     | Brown    | Financial Audit   |
+| Evan      | Jones    | Ad Campaign       |
+| Alice     | Smith    | System Migration  |
+| Charlie   | Williams | System Migration  |
+| Hannah    | Davis    | System Migration  |
+| George    | Miller   | Client Onboarding |
++-----------+----------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.FirstName, e.LastName, w.HoursWorked
+    -> FROM Employee e
+    -> JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> ORDER BY w.HoursWorked DESC;
++-----------+----------+-------------+
+| FirstName | LastName | HoursWorked |
++-----------+----------+-------------+
+| Alice     | Smith    |          40 |
+| Hannah    | Davis    |          40 |
+| Alice     | Smith    |          35 |
+| Charlie   | Williams |          30 |
+| Diana     | Brown    |          25 |
+| Evan      | Jones    |          20 |
+| Hannah    | Davis    |          20 |
+| Charlie   | Williams |          15 |
+| George    | Miller   |          15 |
+| Bob       | Johnson  |          10 |
++-----------+----------+-------------+
+10 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Employee
+    -> WHERE HireDate >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR);
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT AVG(Salary) AS AverageSalary
+    -> FROM Employee;
++---------------+
+| AverageSalary |
++---------------+
+|  80875.000000 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT CONCAT(FirstName, ' ', LastName) AS FullName, HireDate
+    -> FROM Employee
+    -> WHERE HireDate > '2020-12-31';
++---------------+------------+
+| FullName      | HireDate   |
++---------------+------------+
+| Alice Smith   | 2021-05-10 |
+| Diana Brown   | 2022-06-01 |
+| Evan Jones    | 2021-11-05 |
+| George Miller | 2023-03-27 |
+| Hannah Davis  | 2024-02-10 |
++---------------+------------+
+5 rows in set (0.01 sec)
+
+mysql>
+mysql> SELECT EmpID
+    -> FROM WorksOn
+    -> GROUP BY EmpID
+    -> HAVING COUNT(ProjectID) > 3;
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, e.FirstName, e.LastName,
+    ->        (SUM(CASE WHEN Status = 'Present' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS AttendancePercentage
+    -> FROM Attendance a
+    -> JOIN Employee e ON a.EmpID = e.EmpID
+    -> WHERE MONTH(Date) = 8 AND YEAR(Date) = 2025
+    -> GROUP BY e.EmpID, e.FirstName, e.LastName;
++-------+-----------+----------+----------------------+
+| EmpID | FirstName | LastName | AttendancePercentage |
++-------+-----------+----------+----------------------+
+|   101 | Alice     | Smith    |              66.6667 |
+|   102 | Bob       | Johnson  |             100.0000 |
+|   103 | Charlie   | Williams |             100.0000 |
+|   104 | Diana     | Brown    |              50.0000 |
+|   105 | Evan      | Jones    |             100.0000 |
+|   106 | Fiona     | Garcia   |             100.0000 |
+|   107 | George    | Miller   |              50.0000 |
+|   108 | Hannah    | Davis    |             100.0000 |
++-------+-----------+----------+----------------------+
+8 rows in set (0.01 sec)
+
+mysql>
+mysql> SELECT d.DeptName, COUNT(e.EmpID) AS EmployeeCount
+    -> FROM Department d
+    -> LEFT JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    -> GROUP BY d.DeptName;
++------------+---------------+
+| DeptName   | EmployeeCount |
++------------+---------------+
+| HR         |             1 |
+| IT         |             3 |
+| Finance    |             1 |
+| Marketing  |             1 |
+| Operations |             1 |
++------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT d.DeptName
+    -> FROM Department d
+    -> JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    -> GROUP BY d.DeptName
+    -> ORDER BY AVG(e.Salary) DESC
+    -> LIMIT 1;
++----------+
+| DeptName |
++----------+
+| Finance  |
++----------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT MAX(Budget) AS HighestBudget, MIN(Budget) AS LowestBudget
+    -> FROM Project;
++---------------+--------------+
+| HighestBudget | LowestBudget |
++---------------+--------------+
+|     300000.00 |     50000.00 |
++---------------+--------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Employee
+    -> WHERE EmpID NOT IN (SELECT EmpID FROM WorksOn);
++-------+-----------+----------+--------------+----------+------------+
+| EmpID | FirstName | LastName | DepartmentID | Salary   | HireDate   |
++-------+-----------+----------+--------------+----------+------------+
+|   106 | Fiona     | Garcia   |         NULL | 68000.00 | 2020-09-12 |
++-------+-----------+----------+--------------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Employee
+    -> WHERE Salary > 80000;
++-------+-----------+----------+--------------+----------+------------+
+| EmpID | FirstName | LastName | DepartmentID | Salary   | HireDate   |
++-------+-----------+----------+--------------+----------+------------+
+|   101 | Alice     | Smith    |            2 | 90000.00 | 2021-05-10 |
+|   103 | Charlie   | Williams |            2 | 85000.00 | 2020-01-15 |
+|   104 | Diana     | Brown    |            3 | 92000.00 | 2022-06-01 |
+|   108 | Hannah    | Davis    |            2 | 88000.00 | 2024-02-10 |
++-------+-----------+----------+--------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Project
+    -> WHERE Budget > 1000000;
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, COUNT(w.ProjectID) AS ProjectCount
+    -> FROM Employee e
+    -> LEFT JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> GROUP BY e.EmpID;
++-------+--------------+
+| EmpID | ProjectCount |
++-------+--------------+
+|   101 |            2 |
+|   102 |            1 |
+|   103 |            2 |
+|   104 |            1 |
+|   105 |            1 |
+|   106 |            0 |
+|   107 |            1 |
+|   108 |            2 |
++-------+--------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT EmpID, Salary
+    -> FROM Employee;
++-------+----------+
+| EmpID | Salary   |
++-------+----------+
+|   101 | 90000.00 |
+|   102 | 70000.00 |
+|   103 | 85000.00 |
+|   104 | 92000.00 |
+|   105 | 75000.00 |
+|   106 | 68000.00 |
+|   107 | 79000.00 |
+|   108 | 88000.00 |
++-------+----------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT EmpID
+    -> FROM WorksOn
+    -> GROUP BY EmpID
+    -> HAVING COUNT(DISTINCT ProjectID) = (SELECT COUNT(*) FROM Project);
+Empty set (0.03 sec)
+
+mysql>
+mysql> SELECT p.ProjectName, e.FirstName, e.LastName
+    -> FROM Project p
+    -> LEFT JOIN WorksOn w ON p.ProjectID = w.ProjectID
+    -> LEFT JOIN Employee e ON w.EmpID = e.EmpID;
++-------------------+-----------+----------+
+| ProjectName       | FirstName | LastName |
++-------------------+-----------+----------+
+| Website Redesign  | Alice     | Smith    |
+| Website Redesign  | Charlie   | Williams |
+| Website Redesign  | Hannah    | Davis    |
+| Recruitment Drive | Bob       | Johnson  |
+| Financial Audit   | Diana     | Brown    |
+| Ad Campaign       | Evan      | Jones    |
+| System Migration  | Alice     | Smith    |
+| System Migration  | Charlie   | Williams |
+| System Migration  | Hannah    | Davis    |
+| Client Onboarding | George    | Miller   |
++-------------------+-----------+----------+
+10 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, COUNT(*) AS DaysPresent
+    -> FROM Attendance e
+    -> WHERE Status = 'Present' AND MONTH(Date) = 8 AND YEAR(Date) = 2025
+    -> GROUP BY e.EmpID;
++-------+-------------+
+| EmpID | DaysPresent |
++-------+-------------+
+|   101 |           2 |
+|   102 |           1 |
+|   103 |           1 |
+|   104 |           1 |
+|   105 |           1 |
+|   106 |           1 |
+|   107 |           1 |
+|   108 |           1 |
++-------+-------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, e.FirstName, e.LastName, SUM(w.HoursWorked) AS TotalHours
+    -> FROM Employee e
+    -> JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> GROUP BY e.EmpID, e.FirstName, e.LastName
+    -> ORDER BY TotalHours DESC
+    -> LIMIT 3;
++-------+-----------+----------+------------+
+| EmpID | FirstName | LastName | TotalHours |
++-------+-----------+----------+------------+
+|   101 | Alice     | Smith    |         75 |
+|   108 | Hannah    | Davis    |         60 |
+|   103 | Charlie   | Williams |         45 |
++-------+-----------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT p.ProjectName, d.DeptName
+    -> FROM Project p
+    -> JOIN Department d ON p.DepartmentID = d.DepartmentID;
++-------------------+------------+
+| ProjectName       | DeptName   |
++-------------------+------------+
+| Website Redesign  | IT         |
+| Recruitment Drive | HR         |
+| Financial Audit   | Finance    |
+| Ad Campaign       | Marketing  |
+| System Migration  | IT         |
+| Client Onboarding | Operations |
++-------------------+------------+
+6 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT AVG(TotalHours) AS AvgHours
+    -> FROM (
+    ->     SELECT SUM(HoursWorked) AS TotalHours
+    ->     FROM WorksOn
+    ->     GROUP BY EmpID
+    -> ) AS Sub;
++----------+
+| AvgHours |
++----------+
+|  35.7143 |
++----------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT DISTINCT d.DeptName
+    -> FROM Department d
+    -> JOIN Project p ON d.DepartmentID = p.DepartmentID
+    -> GROUP BY d.DeptName
+    -> HAVING MAX(p.Budget) <= 500000;
++------------+
+| DeptName   |
++------------+
+| IT         |
+| HR         |
+| Finance    |
+| Marketing  |
+| Operations |
++------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT d.DeptName, SUM(e.Salary) AS TotalSalary
+    -> FROM Department d
+    -> JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    -> GROUP BY d.DeptName;
++------------+-------------+
+| DeptName   | TotalSalary |
++------------+-------------+
+| IT         |   263000.00 |
+| HR         |    70000.00 |
+| Finance    |    92000.00 |
+| Marketing  |    75000.00 |
+| Operations |    79000.00 |
++------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT *
+    -> FROM Employee
+    -> WHERE FirstName LIKE 'A%';
++-------+-----------+----------+--------------+----------+------------+
+| EmpID | FirstName | LastName | DepartmentID | Salary   | HireDate   |
++-------+-----------+----------+--------------+----------+------------+
+|   101 | Alice     | Smith    |            2 | 90000.00 | 2021-05-10 |
++-------+-----------+----------+--------------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT p.*
+    -> FROM Project p
+    -> JOIN Department d ON p.DepartmentID = d.DepartmentID
+    -> WHERE d.DeptName = 'IT';
++-----------+------------------+--------------+-----------+
+| ProjectID | ProjectName      | DepartmentID | Budget    |
++-----------+------------------+--------------+-----------+
+|       201 | Website Redesign |            2 | 120000.00 |
+|       205 | System Migration |            2 | 300000.00 |
++-----------+------------------+--------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, MIN(a.Date) AS FirstAttendance
+    -> FROM Attendance a
+    -> JOIN Employee e ON a.EmpID = e.EmpID
+    -> GROUP BY e.EmpID;
++-------+-----------------+
+| EmpID | FirstAttendance |
++-------+-----------------+
+|   101 | 2025-08-01      |
+|   102 | 2025-08-01      |
+|   103 | 2025-08-01      |
+|   104 | 2025-08-01      |
+|   105 | 2025-08-01      |
+|   106 | 2025-08-01      |
+|   107 | 2025-08-01      |
+|   108 | 2025-08-01      |
++-------+-----------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT d.DeptName
+    -> FROM Department d
+    -> LEFT JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    -> WHERE e.EmpID IS NULL;
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT EmpID
+    -> FROM Attendance
+    -> WHERE Status = 'Absent' AND Date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    -> GROUP BY EmpID
+    -> HAVING COUNT(*) > 5;
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT e.EmpID, e.FirstName, e.LastName, IFNULL(SUM(w.HoursWorked), 0) AS TotalHours
+    -> FROM Employee e
+    -> LEFT JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> GROUP BY e.EmpID
+    -> ORDER BY TotalHours DESC;
++-------+-----------+----------+------------+
+| EmpID | FirstName | LastName | TotalHours |
++-------+-----------+----------+------------+
+|   101 | Alice     | Smith    |         75 |
+|   108 | Hannah    | Davis    |         60 |
+|   103 | Charlie   | Williams |         45 |
+|   104 | Diana     | Brown    |         25 |
+|   105 | Evan      | Jones    |         20 |
+|   107 | George    | Miller   |         15 |
+|   102 | Bob       | Johnson  |         10 |
+|   106 | Fiona     | Garcia   |          0 |
++-------+-----------+----------+------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT e.FirstName, e.LastName, p.ProjectName, w.HoursWorked
+    -> FROM Employee e
+    -> JOIN WorksOn w ON e.EmpID = w.EmpID
+    -> JOIN Project p ON w.ProjectID = p.ProjectID;
++-----------+----------+-------------------+-------------+
+| FirstName | LastName | ProjectName       | HoursWorked |
++-----------+----------+-------------------+-------------+
+| Alice     | Smith    | Website Redesign  |          40 |
+| Charlie   | Williams | Website Redesign  |          30 |
+| Hannah    | Davis    | Website Redesign  |          20 |
+| Bob       | Johnson  | Recruitment Drive |          10 |
+| Diana     | Brown    | Financial Audit   |          25 |
+| Evan      | Jones    | Ad Campaign       |          20 |
+| Alice     | Smith    | System Migration  |          35 |
+| Charlie   | Williams | System Migration  |          15 |
+| Hannah    | Davis    | System Migration  |          40 |
+| George    | Miller   | Client Onboarding |          15 |
++-----------+----------+-------------------+-------------+
+10 rows in set (0.00 sec)
